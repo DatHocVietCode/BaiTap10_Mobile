@@ -66,6 +66,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                                 Map<String, Object> userData = new HashMap<>();
                                 userData.put("email", email);
+                                userData.put("password", password);
                                 userData.put("displayName", defaultName);
                                 userData.put("avatarUrl", ""); // Chưa có ảnh thì để trống
 

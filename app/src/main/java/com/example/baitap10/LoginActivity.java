@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,6 +26,13 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -143,6 +151,30 @@ public class LoginActivity extends AppCompatActivity {
                             String emailUser = user.getEmail();
                             String name = user.getDisplayName();
                             String photoUrl = (user.getPhotoUrl() != null) ? user.getPhotoUrl().toString() : "Chưa có ảnh";
+
+                            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(uid);
+                            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (!snapshot.exists()) {
+                                        // Nếu chưa tồn tại user này, thêm vào
+                                        HashMap<String, Object> userData = new HashMap<>();
+                                        userData.put("displayName", name != null ? name : "Không có tên");
+                                        userData.put("email", emailUser != null ? emailUser : "Không có email");
+                                        userData.put("avatarUrl", photoUrl != null ? photoUrl : "");
+                                        userData.put("password", ""); // Người dùng đăng nhập bằng Google, không có password
+
+                                        userRef.setValue(userData)
+                                                .addOnSuccessListener(unused -> Log.d("UserDB", "Thêm user mới thành công"))
+                                                .addOnFailureListener(e -> Log.e("UserDB", "Lỗi khi thêm user: " + e.getMessage()));
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    Log.e("UserDB", "Lỗi DB: " + error.getMessage());
+                                }
+                            });
 
                             Log.d("UserInfo", "UID: " + uid);
                             Log.d("UserInfo", "Email: " + emailUser);

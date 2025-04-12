@@ -1,20 +1,24 @@
 package com.example.baitap10.adapter;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.baitap10.MyProfileActivity;
 import com.example.baitap10.R;
 import com.example.baitap10.model.VideoModel;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -43,17 +47,39 @@ public class VideosFireBaseAdapter extends FirebaseRecyclerAdapter<VideoModel, V
     public VideosFireBaseAdapter(@NonNull FirebaseRecyclerOptions<VideoModel> options) {
         super(options);
     }
+    private void loadUserEmail(MyHolder holder) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String uid = currentUser.getUid();
 
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(uid);
+            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String email = snapshot.child("email").getValue(String.class);
+                    holder.singlerow_tvEmail.setText(email);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    // Handle error
+                }
+            });
+        }
+    }
     @Override
     protected void onBindViewHolder(@NonNull MyHolder holder, int position, @NonNull VideoModel model) {
         holder.textVideoTitle.setText(model.getTitle());
         holder.textVideoDescription.setText(model.getDecs());
         holder.videoView.setVideoPath(model.getUrl());
+        loadUserEmail(holder);
+
         Glide.with(holder.itemView.getContext())
                 .load(model.getAvatar()) // Hoặc user.getAvatar() tuỳ ông lưu ở đâu
                 .circleCrop()
                 .placeholder(R.drawable.baseline_person_pin_24) // Ảnh mặc định nếu chưa có avatar
                 .into(holder.imgUploadedAvatar);
+
         holder.videoView.setOnPreparedListener(mp -> {
             holder.videoProgressBar.setVisibility(View.GONE);
             mp.start();
@@ -200,19 +226,28 @@ public class VideosFireBaseAdapter extends FirebaseRecyclerAdapter<VideoModel, V
                     if (avatarUrl != null && !avatarUrl.isEmpty()) {
                         Glide.with(holder.itemView.getContext())
                                 .load(avatarUrl)
+                                .circleCrop()
                                 .placeholder(R.drawable.baseline_person_outline_24) // ảnh mặc định nếu chưa có
-                                .into(holder.imgPerson);
+                                .into(holder.btn_myProfile);
                     } else {
-                        holder.imgPerson.setImageResource(R.drawable.baseline_person_outline_24);
+                        holder.btn_myProfile.setImageResource(R.drawable.baseline_person_outline_24);
                     }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    // Xử lý nếu có lỗi
+
                 }
             });
         }
+        holder.btn_myProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(holder.itemView.getContext(), MyProfileActivity.class);
+                holder.itemView.getContext().startActivity(intent);
+                Log.d("btn_profile", "btn_profile clicked");
+            }
+        });
     }
     private void LikeVideo(MyHolder holder)
     {
@@ -243,14 +278,15 @@ public class VideosFireBaseAdapter extends FirebaseRecyclerAdapter<VideoModel, V
 
     public static  class MyHolder extends RecyclerView.ViewHolder {
         private VideoView videoView;
-        private ImageView imgLikes, imgDislikes, imgShare, imgMore, imgPerson, imgUploadedAvatar;
-        private TextView textVideoTitle, textVideoDescription, tv_numLikes, tv_numDislikes;
+        private ImageView imgLikes, imgDislikes, imgShare, imgMore, imgUploadedAvatar,btn_myProfile;
+        private TextView textVideoTitle, textVideoDescription, tv_numLikes, tv_numDislikes, singlerow_tvEmail;
         private ProgressBar videoProgressBar;
+
         public MyHolder(@NonNull View itemView) {
             super(itemView);
             videoView = itemView.findViewById(R.id.videoView);
 
-            imgPerson = itemView.findViewById(R.id.imgPerson);
+            btn_myProfile = itemView.findViewById(R.id.iv_myProfile);
             imgUploadedAvatar = itemView.findViewById(R.id.img_avatarUploadedUser);
             imgLikes = itemView.findViewById(R.id.imgLike);
             imgDislikes = itemView.findViewById(R.id.imgDislike);
@@ -258,6 +294,7 @@ public class VideosFireBaseAdapter extends FirebaseRecyclerAdapter<VideoModel, V
             imgMore = itemView.findViewById(R.id.imgMore);
             tv_numLikes = itemView.findViewById(R.id.tv_numLikes);
             tv_numDislikes = itemView.findViewById(R.id.tv_numDislikes);
+            singlerow_tvEmail = itemView.findViewById(R.id.singlerow_tv_email);
 
             videoProgressBar = itemView.findViewById(R.id.videoProgressBar);
             textVideoDescription = itemView.findViewById(R.id.textVideoDescription);
