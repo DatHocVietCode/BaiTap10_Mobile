@@ -37,6 +37,7 @@
         <activity android:name=".VideoShortsFirebaseActivity"/>
         <activity android:name=".MyProfileActivity"/>
         <activity android:name=".UploadImageActivity"/>
+        <activity android:name=".UploadVideoActivity"/>
     </application>
 
 </manifest>

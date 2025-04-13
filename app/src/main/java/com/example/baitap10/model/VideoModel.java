@@ -4,14 +4,37 @@ import java.io.Serializable;
 import java.util.Map;
 
 public class VideoModel implements Serializable {
-    private String title;
-    private String decs;
 
+    private String title;       // Tiêu đề video
+    private String decs;        // Mô tả video
+    private String avatar;      // Avatar người đăng
+    private String url;         // URL của video (videoUrl)
+    private Map<String, Boolean> likes;   // Likes của video (map người dùng đã thích)
+    private Map<String, Boolean> dislikes; // Dislikes của video (map người dùng đã không thích)
+    private String email;       // Email người dùng
+    private String username;    // Tên người dùng
+    private String owner;       // ID của người sở hữu video
+
+    // Constructor mặc định (để Firebase có thể sử dụng)
     public VideoModel() {
     }
 
-    private String avatar;
+    // Constructor với tất cả các tham số
+    public VideoModel(String title, String decs, String avatar, String url,
+                      Map<String, Boolean> likes, Map<String, Boolean> dislikes,
+                      String email, String username, String owner) {
+        this.title = title;
+        this.decs = decs;
+        this.avatar = avatar;
+        this.url = url;
+        this.likes = likes;
+        this.dislikes = dislikes;
+        this.email = email;
+        this.username = username;
+        this.owner = owner;
+    }
 
+    // Getter và Setter cho từng thuộc tính
     public String getTitle() {
         return title;
     }
@@ -60,18 +83,27 @@ public class VideoModel implements Serializable {
         this.dislikes = dislikes;
     }
 
-    public VideoModel(Map<String, Boolean> dislikes, Map<String, Boolean> likes, String url, String avatar, String decs, String title) {
-        this.dislikes = dislikes;
-        this.likes = likes;
-        this.url = url;
-        this.avatar = avatar;
-        this.decs = decs;
-        this.title = title;
+    public String getEmail() {
+        return email;
     }
 
-    private String url;
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    // NEW: Thêm likes và dislikes
-    private Map<String, Boolean> likes;
-    private Map<String, Boolean> dislikes;
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
 }

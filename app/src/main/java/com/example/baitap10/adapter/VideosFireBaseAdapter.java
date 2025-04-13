@@ -1,5 +1,8 @@
 package com.example.baitap10.adapter;
 
+import static android.app.Activity.RESULT_OK;
+import static androidx.activity.result.ActivityResultCallerKt.registerForActivityResult;
+
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -14,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,16 +48,16 @@ public class VideosFireBaseAdapter extends FirebaseRecyclerAdapter<VideoModel, V
     //public boolean isFav = false;
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
     String currentUserId = currentUser != null ? currentUser.getUid() : null;
-
     public VideosFireBaseAdapter(@NonNull FirebaseRecyclerOptions<VideoModel> options) {
         super(options);
     }
-    private void loadUserEmail(MyHolder holder) {
+    private void loadUserEmail(MyHolder holder, int position) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String uid = currentUser.getUid();
 
-            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(uid);
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("videos")
+                    .child(getRef(position).getKey());
             userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -72,7 +77,7 @@ public class VideosFireBaseAdapter extends FirebaseRecyclerAdapter<VideoModel, V
         holder.textVideoTitle.setText(model.getTitle());
         holder.textVideoDescription.setText(model.getDecs());
         holder.videoView.setVideoPath(model.getUrl());
-        loadUserEmail(holder);
+        loadUserEmail(holder, position);
 
         Glide.with(holder.itemView.getContext())
                 .load(model.getAvatar()) // Hoặc user.getAvatar() tuỳ ông lưu ở đâu

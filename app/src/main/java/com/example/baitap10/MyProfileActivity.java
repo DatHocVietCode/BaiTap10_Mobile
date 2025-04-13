@@ -36,7 +36,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MyProfileActivity extends AppCompatActivity {
     ImageButton btn_back;
-    Button btn_editInformation;
+    Button btn_editInformation, btn_uploadVideo;
     TextView tv_numVideo, tv_name, tv_email, tv_password, tv_id;
     CircleImageView user_avatar;
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(
@@ -73,6 +73,11 @@ public class MyProfileActivity extends AppCompatActivity {
 
         btn_editInformation = findViewById(R.id.btn_editInformation);
         btn_editInformation.setOnClickListener(view -> openEditDialog());
+        btn_uploadVideo = findViewById(R.id.btn_openUploadVideo);
+        btn_uploadVideo.setOnClickListener(view -> {
+            Intent intent = new Intent(MyProfileActivity.this, UploadVideoActivity.class);
+            launcher.launch(intent); // Thay vì startActivity
+        });
 
         user_avatar = findViewById(R.id.user_avatar);
         user_avatar.setOnClickListener(new View.OnClickListener() {

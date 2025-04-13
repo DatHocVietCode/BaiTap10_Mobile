@@ -9,22 +9,14 @@
     tools:context=".MainActivity"
     android:orientation="vertical"
     android:gravity="center">
-
     <Button
         android:id="@+id/btn_baitap1"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="BaiTap1"/>
     <Button
         android:id="@+id/btn_baitap2"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:text="BaiTap2"/>
-    <Button
-        android:id="@+id/btn_baitap3"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:text="BaiTap3"/>
-
-
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BaiTap2 và BaiTap3"/>
 </LinearLayout>

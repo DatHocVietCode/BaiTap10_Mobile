@@ -59,8 +59,8 @@
             />
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_avatar"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
             android:src="@drawable/user"/>
         <LinearLayout
             android:id="@+id/ln_container"
@@ -157,12 +157,25 @@
                     />
             </LinearLayout>
         </LinearLayout>
-        <Button
-            android:id="@+id/btn_editInformation"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:text="Edit"
-            android:layout_marginTop="16dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center">
+            <Button
+                android:id="@+id/btn_editInformation"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:text="Edit"
+                android:layout_marginTop="16dp"/>
+            <Button
+                android:id="@+id/btn_openUploadVideo"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Upload Video"
+                android:layout_marginTop="4dp"/>
+        </LinearLayout>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

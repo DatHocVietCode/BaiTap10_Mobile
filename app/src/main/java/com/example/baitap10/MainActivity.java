@@ -61,6 +61,6 @@ public class MainActivity extends AppCompatActivity {
     {
         btn_baitap1 = (Button) findViewById(R.id.btn_baitap1);
         btn_baitap2 = (Button) findViewById(R.id.btn_baitap2);
-        btn_baitap3 = (Button) findViewById(R.id.btn_baitap3);
+
     }
 }
