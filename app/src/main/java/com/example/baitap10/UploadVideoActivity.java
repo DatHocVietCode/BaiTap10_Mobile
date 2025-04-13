@@ -138,9 +138,16 @@ public class UploadVideoActivity extends AppCompatActivity {
         }
 
         mProgressDialog.show();
-
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        String fileName = uid + "_video.mp4";
+        // Tạo tên file duy nhất từ UID và thời gian hiện tại
+        String fileName = uid + "_" + System.currentTimeMillis() + "_video.mp4";
+
+        String videoTitle = "Video: " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName()
+                + " - " + fileName;
+        String videoDescription = "Mô tả video" + FirebaseAuth.getInstance().getCurrentUser().getDisplayName()
+                + " - " + fileName; ;
+
+
 
         FirebaseStorage.getInstance().getReference("videos/" + fileName)
                 .putFile(mVideoUri)
@@ -163,8 +170,8 @@ public class UploadVideoActivity extends AppCompatActivity {
 
                                             // Tạo đối tượng VideoModel
                                             VideoModel video = new VideoModel(
-                                                    "Video 1", // title
-                                                    "Video demo1", // description
+                                                    videoTitle, // title: lấy từ videoTitle
+                                                    videoDescription, // description: lấy từ videoDescription
                                                     avatarUrl, // avatar
                                                     videoUrl, // URL video
                                                     new HashMap<>(), // likes (sẽ thêm khi có người thích)
@@ -202,6 +209,7 @@ public class UploadVideoActivity extends AppCompatActivity {
                     Toast.makeText(this, "Upload thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
+
 
 
 

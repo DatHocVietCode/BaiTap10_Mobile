@@ -67,7 +67,10 @@
             android:textColor="@color/white"
             android:gravity="center"
             android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"/>
+            android:layout_marginStart="8dp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:maxLines="1"/>
         <LinearLayout
             android:id="@+id/ln_videoName_decs"
             android:layout_width="0dp"
@@ -92,7 +95,10 @@
                 android:textSize="25sp"
                 android:textStyle="bold"
                 android:shadowDy="0"
-                android:shadowDx="0"/>
+                android:shadowDx="0"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:maxLines="1"/>
             <TextView
                 android:id="@+id/textVideoDescription"
                 android:layout_width="match_parent"
@@ -106,7 +112,9 @@
                 android:text="Video Shorts"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                />
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:maxLines="1"/>
         </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
