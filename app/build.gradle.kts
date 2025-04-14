@@ -49,6 +49,13 @@ dependencies {
     implementation ("com.google.firebase:firebase-storage:20.1.0")
     implementation ("com.firebaseui:firebase-ui-database:8.0.1")
     implementation("de.hdodenhof:circleimageview:3.1.0")
+    // Network & Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    //Gson
+    implementation("com.google.code.gson:gson:2.10.1")
+    // Youtube Video Load
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0")
     implementation(libs.glide)
     implementation(libs.firebase.auth)
     testImplementation(libs.junit)

@@ -38,6 +38,7 @@
         <activity android:name=".MyProfileActivity"/>
         <activity android:name=".UploadImageActivity"/>
         <activity android:name=".UploadVideoActivity"/>
+        <activity android:name=".VideoShortAPI"/>
     </application>
 
 </manifest>

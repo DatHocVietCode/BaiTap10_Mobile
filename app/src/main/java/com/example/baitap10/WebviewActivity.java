@@ -40,6 +40,6 @@ public class WebviewActivity extends AppCompatActivity {
 
 
         // Tải trang web responsive
-        webView.loadUrl("https://www.thegioididong.com/"); // Thay bằng URL của bạn
+        webView.loadUrl("http://iotstar.vn/Account/Login"); // Thay bằng URL của bạn
     }
 }

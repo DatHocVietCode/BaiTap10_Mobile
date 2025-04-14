@@ -12,7 +12,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
-    Button btn_baitap1, btn_baitap2, btn_baitap3;
+    Button btn_baitap1, btn_baitap2, btn_vd_retrofit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,11 +56,18 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        btn_vd_retrofit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, VideoShortAPI.class);
+                startActivity(intent);
+            }
+        });
     }
     private void AnhXa()
     {
         btn_baitap1 = (Button) findViewById(R.id.btn_baitap1);
         btn_baitap2 = (Button) findViewById(R.id.btn_baitap2);
-
+        btn_vd_retrofit = (Button) findViewById(R.id.btn_vd_retrofit);
     }
 }
